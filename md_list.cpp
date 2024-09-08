@@ -177,7 +177,7 @@ void auto_list_update(double *disp_max,double (*x)[dim],double (*x_update)[dim],
   if(*disp_max > skin*skin*0.25){
     list_verlet(list,x);
     update(x_update,x);
-    //    std::cout<<"update"<<*disp_max<<" "<<count<<std::endl;
+    std::cout<<"update"<<*disp_max<<" "<<count<<std::endl;
     *disp_max=0.0;
     count=0;
   }
@@ -192,7 +192,7 @@ int main(){
   set_diameter(a);
   ini_coord_square(x);
   ini_array(v);
-  update(x_update,x); //added
+  //update(x_update,x); //added //これを入れると計算時間が膨れ上がる
   while(j*dtbd < 10.){
     j++;
     auto_list_update(&disp_max,x,x_update,list);
