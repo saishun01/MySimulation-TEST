@@ -132,7 +132,7 @@ void eom_md(double (*v)[dim],double (*x)[dim],double (*f)[dim],double *a,double 
   p_boundary(x);
 }
 
-void output(int k,double (*v)[dim],double U){
+void output_energy(int k,double (*v)[dim],double U){
   char filename[128];
   double K=0.0;
 
@@ -146,6 +146,18 @@ void output(int k,double (*v)[dim],double U){
   std::cout<< std::setprecision(6)<<k*dtmd<<"\t"<<K/Np<<"\t"<<U/Np<<"\t"<<(K+U)/Np<<std::endl;  
   file<< std::setprecision(6)<<k*dtmd<<"\t"<<K/Np<<"\t"<<U/Np<<"\t"<<(K+U)/Np<<std::endl;
   file.close();
+}
+
+void output(int k, double (*x)[dim], double (*v)[dim], double *a){
+  char filename[128];
+  std::ofstream file;
+  static int j=0; 
+  sprintf(filename,"LJ_results\\coord_T%.3f_%d.dat",temp,j);
+  file.open(filename); 
+  for(int i=0;i<Np;i++)
+    file<< k*dtmd<<"\t"<<x[i][0]<<"\t"<<x[i][1]<<"\t"<<v[i][0]<<"\t"<<v[i][1]<<"\t"<<a[i]<<std::endl;
+  file.close();
+  j++;
 }
 
 void update(double (*x_update)[dim],double (*x)[dim])
@@ -211,7 +223,8 @@ int main(){
     auto_list_update(&disp_max,x,x_update,list);
     eom_md(v,x,f,a,&U,dtmd,list);
     if(j*dtmd >= tout){
-      output(j,v,U);
+      //output_energy(j,v,U);
+      output(j,x,v,a);
       tout+=1.;
     }
   }  
