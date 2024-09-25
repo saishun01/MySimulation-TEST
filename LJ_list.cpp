@@ -18,7 +18,7 @@
 #define dim 2
 #define cut 3.0
 #define skin 1.5
-#define polydispersity 0.0
+#define polydispersity 0.1
 
 void ini_coord_square(double (*x)[dim]){
   int num_x = (int)sqrt(Np)+1;
